@@ -101,7 +101,15 @@ class Robot
   #
   # Returns nothing.
   hear: (regex, options, callback) ->
-    @listeners.push new TextListener(@, regex, options, callback)
+    re = regex.toString().split('/')
+    re.shift()
+    modifiers = re.pop()
+    newRegex = new RegExp(
+      re[0]
+      modifiers
+    )
+
+    @listeners.push new TextListener(@, newRegex, options, callback)
 
   # Public: Adds a Listener that attempts to match incoming messages directed
   # at the robot based on a Regex. All regexes treat patterns like they begin
